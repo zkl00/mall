@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-   <tabBar/> 
-    <router-view/>
+     <router-view />
+    <mineTabBar/>
+   
   </div>
 </template>
 <script>
-import tabBar from '../src/components/common/tabbar/tabBar'
+import mineTabBar from './components/content/mineTabBar'
 export default {
-  components:{
-    tabBar
+  components: {
+   mineTabBar
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import './assets/css/base.css'
-
+@import "./assets/css/base.css";
 </style>
