@@ -31,7 +31,7 @@ export default {
   },
   methods:{
     hanclick(){
-      console.log(this.path)
+      // console.log(this.path)
       this.$router.push(this.path)
     }
   }
