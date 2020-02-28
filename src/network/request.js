@@ -5,8 +5,9 @@ export function request(confing){
 
         //重建axios 实例
         const instasce = axios.create({
-            baseURL:"http://123.207.32.32:8000/api/wh222222222222222222222222222222222",
-            // baseURL = "http://106.54.54.237:8000/api/wh222222222222222221111111111111111111" 
+          
+            // baseURL:"http://123.207.32.32:8000/api/w1111111111111111111h",
+            // baseURL = "http://106.54.54.237:8000/api/wh222222222222222222222222222222222" 
             timeout:5000
         })
         //响应拦截
