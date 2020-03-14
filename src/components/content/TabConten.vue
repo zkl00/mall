@@ -22,9 +22,10 @@ export default {
       }
   },
   methods:{
+    //tab的切换
       tabclick(e){
-          console.log(e)
           this.indexS = e
+          this.$emit("tabClick",e)
       }
   }
 };
@@ -40,6 +41,8 @@ export default {
     justify-content: space-around;
     font-size: 14px;
     width: 100%;
+    height: 40px;
+    align-items: center;
     background-color: #ffff;
 }
 .active{
