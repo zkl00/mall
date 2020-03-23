@@ -3,7 +3,7 @@
     <navTab class="nav">
       <div slot="centen" class="font">购物街</div>
     </navTab>
-
+     <tabconten :tabcontent="['流行','新款','精选']" class="tab-content1" @tabClick="tabClick" ref="tebContnts1" v-show="flay"/>
     <Scroll
       class="scroll"
       ref="scroll"
@@ -12,10 +12,10 @@
       @monitoringMobile="monitoringMobile"
       @pullupload="pullupload"
     >
-      <swiper :banner="banner"></swiper>
+      <swiper :banner="banner" @swiperOload="swiperOload"></swiper>
       <recommend :recommend="recommend" />
       <FeatreView />
-      <tabconten :tabcontent="['流行','新款','精选']" class="tab-content" @tabClick="tabClick" />
+      <tabconten :tabcontent="['流行','新款','精选']" class="tab-content" @tabClick="tabClick" ref="tebContnts2" />
       <!-- 商品列表 -->
       <GoodsList :goods="showGoods"></GoodsList>
     </Scroll>
@@ -55,7 +55,10 @@ export default {
         sell: { page: 0, list: [] }
       },
       indexType: "pop",
-      hide: false
+      hide: false,
+      heightOffsetTop:0,
+      flay:false,
+      scrollY:'',
     };
   },
   computed: {
@@ -77,8 +80,24 @@ export default {
       refresh()
       
     });
+    
   },
-  methods: {
+  /**销毁路由 */
+  destroyed(){
+    // console.log("object")
+  },
+  // 创建路由
+  activated(){
+    // console.log('创建路由')
+    this.$refs.scroll.scrollList(0,this.scrollY,0)
+    this.$refs.scroll.scroll.refresh()
+  },
+  // 离开路由
+  deactivated(){
+    // console.log('离开')
+    this.scrollY = this.$refs.scroll.scroll.y
+  },
+    methods: {
     // 防抖动事件
     debounce(func, delay) {
       let time = null;
@@ -94,11 +113,10 @@ export default {
     监听事件
      */
     monitoringMobile(e) {
-      if (e.y < -1000) {
-        this.hide = true;
-      } else {
-        this.hide = false;
-      }
+      // 监听拉的的图片是否现显示
+       this.hide = (e.y) < -1000
+      //隐藏导航  判断是否显示导航
+        this.flay = (-e.y)>this.heightOffsetTop
     },
     iconClick() {
       this.$refs.scroll.scrollList(0, 0);
@@ -114,11 +132,19 @@ export default {
         case 2:
           this.indexType = "sell";
       }
+      this.$refs.tebContnts2.indexS = index
+       this.$refs.tebContnts1.indexS = index
     },
     //监听下拉加载更多
     pullupload() {
       // console.log("下拉加载更多")
       this.getHoneData(this.indexType);
+    },
+    /**子传父监听 */
+    swiperOload(){
+      //吸顶效果
+    // console.log(this.$refs.tebContnts2.$el.offsetTop)
+    this.heightOffsetTop = this.$refs.tebContnts2.$el.offsetTop
     },
     /***
     网络请求
@@ -156,6 +182,11 @@ export default {
   left: 0;
   right: 0;
   z-index: 5;
+}
+.tab-content1{
+   position: sticky;
+  top: 48px;
+  z-index: 9;
 }
 .tab-content {
   position: sticky;

@@ -3,7 +3,7 @@
     <!-- slides -->
     <swiper-slide v-for="(item,index) in banner" :key="index" class="newimg">
       <a :href="item.link" :title="item.title">
-        <img :src="item.image" :alt="item.title" />
+        <img :src="item.image" :alt="item.title" @load="swiperOload" />
       </a>
     </swiper-slide>
     <!-- Optional controls -->
@@ -45,7 +45,8 @@ export default {
           //   nextEl: ".swiper-button-next",
           //   prevEl: ".swiper-button-prev"
         }
-      }
+      },
+      Isfly: true
     };
   },
   computed: {
@@ -68,6 +69,15 @@ export default {
       this.swiper.autoplay.start();
       console.log("start");
     };
+  },
+  methods: {
+    /****事件监听 */
+    swiperOload() {
+      if (this.Isfly) {
+        this.$emit("swiperOload");
+        this.Isfly = false;
+      }
+    }
   }
 };
 </script>
@@ -76,9 +86,9 @@ export default {
   width: 100%;
   height: 200px;
 }
-.newimg img{
-    width: 100%;
-    height: 100%;
+.newimg img {
+  width: 100%;
+  height: 100%;
 }
 </style>
 
