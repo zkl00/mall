@@ -5,7 +5,7 @@ export function request(confing){
 
         //重建axios 实例
         const instasce = axios.create({
-          
+        baseURL:'http://106.54.54.237:8000/api/h8',
             timeout:5000
         })
         //响应拦截
@@ -40,6 +40,7 @@ export function request(confing){
         })
         //传入对象进行请求
         instasce(confing).then((res)=>{
+            console.log(res)
             lovobj(res)
         }).catch((error)=>{
             lob(error)
